@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VEXZ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
+    <div class="bg-gray-800 p-6 rounded-xl shadow-xl w-80 text-center" id="mainContainer">
+        <h2 class="text-xl font-semibold text-gray-300 mb-4">Mua legend ticket</h2>
+
+        <label for="catFood" class="block mb-2 text-gray-400">Nhập legend ticket:</label>
+        <input type="number" id="catFood" class="w-full p-2 rounded-lg bg-gray-700 text-white text-center"
+               placeholder="Nhập số legend ticket" oninput="calculatePrice()">
+
+        <div class="mt-4 grid grid-cols-3 gap-2">
+            <button onclick="setXP(1)" class="col-span-3 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-lg">1</button>
+            <button onclick="setXP(2)" class="col-span-3 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-lg">2</button>
+            <button onclick="setXP(3)" class="col-span-3 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-lg">3</button>
+            <button onclick="setXP(4)" class="col-span-3 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-lg">4</button>
+        </div>
+
+        <h3 class="mt-4 text-lg font-semibold" id="result">Số tiền: 0 VNĐ</h3>
+
+        <button id="payButton" onclick="showPaymentForm()" class="mt-4 w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg hidden">
+            Thanh toán
+        </button>
+    </div>
+
+    <div id="paymentForm" class="hidden bg-gray-800 p-6 rounded-xl shadow-xl w-80 text-center mt-4">
+        <h2 class="text-xl font-semibold text-gray-300 mb-4">Nhập thông tin</h2>
+        <input type="text" id="fullName" placeholder="Họ và Tên" class="w-full p-2 mb-2 rounded-lg bg-gray-700 text-white text-center">
+        <input type="text" id="phoneNumber" placeholder="Số điện thoại" class="w-full p-2 mb-2 rounded-lg bg-gray-700 text-white text-center">
+        <input type="email" id="email" placeholder="Email" class="w-full p-2 mb-2 rounded-lg bg-gray-700 text-white text-center">
+        <button onclick="generateInvoice()" class="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg">
+            Hoàn thành
+        </button>
+    </div>
+
+    <div id="successMessage" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white p-6 rounded-lg shadow-xl w-80 text-gray-900 text-center">
+            <h2 class="text-xl font-semibold mb-4 text-green-600">Tạo đơn thành công!</h2>
+            <p class="text-gray-700">Xem ảnh tải về để thanh toán</p>
+            <button onclick="closeSuccessMessage()" class="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let totalPrice = 0;
+        const minCatFood = 1;
+        const maxCatFood = 4;
+
+        function calculatePrice() {
+            let catFood = parseInt(document.getElementById("catFood").value) || 0;
+            let resultText = document.getElementById("result");
+            let payButton = document.getElementById("payButton");
+
+            if (catFood < minCatFood || catFood > maxCatFood) {
+                resultText.innerText = "Số tiền: Không hợp lệ";
+                payButton.classList.add("hidden");
+                totalPrice = 0;
+            } else {
+                totalPrice = catFood * 5000;
+                resultText.innerText = `Số tiền: ${totalPrice.toLocaleString()} VNĐ`;
+                payButton.classList.remove("hidden");
+            }
+        }
+
+        function setXP(value) {
+            document.getElementById("catFood").value = value;
+            calculatePrice();
+        }
+
+        function showPaymentForm() {
+            document.getElementById("paymentForm").classList.remove("hidden");
+        }
+
+        function generateInvoice() {
+    let name = document.getElementById("fullName").value;
+    let phone = document.getElementById("phoneNumber").value;
+    let email = document.getElementById("email").value;
+    
+    if (!name || !phone || !email) {
+        alert("Vui lòng điền đầy đủ thông tin!");
+        return;
+    }
+
+    let invoiceCanvas = document.createElement("canvas");
+    let ctx = invoiceCanvas.getContext("2d");
+    invoiceCanvas.width = 400;
+    invoiceCanvas.height = 250;
+    
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, 400, 250);
+    ctx.fillStyle = "#000";
+    ctx.font = "16px Arial";
+    ctx.fillText("HÓA ĐƠN MUA legend ticket", 120, 40);
+    ctx.fillText(`Họ và Tên: ${name}`, 50, 80);
+    ctx.fillText(`SĐT: ${phone}`, 50, 110);
+    ctx.fillText(`Email: ${email}`, 50, 140);
+    ctx.fillText(`Số tiền: ${totalPrice.toLocaleString()} VNĐ`, 50, 170);
+    ctx.fillText(`Số legend ticket: ${document.getElementById("catFood").value}`, 50, 200);
+    ctx.fillText("Liên hệ thanh toán Zalo: 0355202899", 50, 230);
+    
+    let link = document.createElement("a");
+    link.download = "hoa_don.png";
+    link.href = invoiceCanvas.toDataURL();
+    link.click();
+
+    document.getElementById("paymentForm").classList.add("hidden");
+    document.getElementById("successMessage").classList.remove("hidden");
+        }
+
+    function closeSuccessMessage() {
+    document.getElementById("successMessage").classList.add("hidden");
+        }
+    </script>
+</body>
+</html>

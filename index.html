@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VEXZ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Hiệu ứng nền đổi màu liên tục */
+        @keyframes backgroundAnimation {
+            0% { background-color: rgb(54, 54, 54); }  
+            50% { background-color: #868585; } 
+            100% { background-color: #2e2e2e; } 
+        }
+        body {
+            animation: backgroundAnimation 5s infinite alternate ease-in-out;
+        }
+
+        /* Hiệu ứng nền gradient đổi màu liên tục */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .animated-gradient {
+            background-size: 200% 200%;
+            animation: gradientShift 4s infinite linear;
+        }
+
+        /* Hiệu ứng hover đặc biệt */
+        .btn-hover {
+            transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+        }
+        .btn-hover:hover {
+            filter: brightness(1.2); 
+            transform: scale(1.05); 
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen text-gray-900 transition-all duration-500">
+
+    <!-- Tiêu đề -->
+    <div class="bg-white p-4 rounded-xl shadow-lg w-60 text-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">SHOP THE BATTLE CAT - VEXZ</h1>
+    </div>
+
+    <!-- Card Container -->
+    <div class="bg-white p-6 rounded-xl shadow-xl w-80 text-center">
+        <h2 class="text-xl font-semibold text-gray-700 mb-4">MENU</h2>
+        
+        <!-- Các nút mở file HTML -->
+        <a href="src/item.html" 
+           class="block text-white py-3 rounded-lg shadow-md transition transform mb-3 animated-gradient btn-hover"
+           style="background: linear-gradient(45deg, #ff0000, #ff7300, #ffeb00, #00ff00, #00e1ff, #0000ff, #8b00ff);">
+           item
+        </a> 
+
+        <a href="src/cats.html" 
+           class="block text-white py-3 rounded-lg shadow-md transition transform mb-3 animated-gradient btn-hover"
+           style="background: linear-gradient(45deg, #ff0000, #ff7300, #ffeb00, #00ff00, #00e1ff, #0000ff, #8b00ff);">
+           Cats / Special Skills
+        </a> 
+
+        <a href="src/vip.html" 
+        class="block text-white py-3 rounded-lg shadow-md transition transform mb-3 animated-gradient btn-hover"
+        style="background: linear-gradient(45deg, #ff0000, #ff7300, #ffeb00, #00ff00, #00e1ff, #0000ff, #8b00ff);">
+        VIP
+     </a> 
+
+    </div>
+
+</body>
+</html>
